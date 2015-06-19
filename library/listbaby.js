@@ -19,20 +19,6 @@ var token = {
         secret: '1IkEWx2KDofhR7xmDm3etnvl6tAqr25vDQ6DoPPMWwHfc'
 };
 
-//var auth = oauth.authorize(token);
-
-function setHeader() {
-/* return function(xhr){
- xhr.setRequestHeader('oauth_consumer_key', auth.oauth_consumer_key);
- xhr.setRequestHeader('oauth_nonce', auth.oauth_nonce);
- xhr.setRequestHeader('oauth_signature', auth.oauth_signature);
- xhr.setRequestHeader('oauth_signature_method', auth.oauth_signature_method);
- xhr.setRequestHeader('oauth_timestamp', auth.oauth_timestamp);
- xhr.setRequestHeader('oauth_version', auth.oauth_version);
- };*/
- //return oauth.toHeader(auth);
-}
-
 $("#button").click(function(){
       auth =  oauth.authorize(request_data, token);
       $.ajax({
