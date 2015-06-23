@@ -8,24 +8,28 @@ var oauth = OAuth({
     version: "1.0"
 });
 
+//url for list https://api.twitter.com/1.1/lists/list.json, GET
+//url for list members https://api.twitter.com/1.1/lists/members.json, GET, {"list_id" : "203783396"}
+
 var request_data = {
-    url: 'https://api.twitter.com/oauth/request_token',
+    url: 'https://api.twitter.com/1.1/lists/members/create.json',
     method: 'POST',
-    data: {}
+    data: {"list_id" : "203783396", "screen_name" : "facebook"}
 };
 
 var token = {
-        public: '1421407057-w7ZVCAAiPplFkwSJrds3BeuY4E4jhWGCiluPe0F',
-        secret: '1IkEWx2KDofhR7xmDm3etnvl6tAqr25vDQ6DoPPMWwHfc'
+        public: '',
+        secret: ''
 };
 
 $("#button").click(function(){
       auth =  oauth.authorize(request_data, token);
       $.ajax({
-         url: "https://api.twitter.com/oauth/request_token",
-         type: "POST",
+         url: request_data.url,
+         type: request_data.method,
+         data: request_data.data,
          headers: oauth.toHeader(auth)
       }).done(function(data){
-      console.log(" data : " + data);
+      console.log(" data : " + JSON.stringify(data));
       });
 });
