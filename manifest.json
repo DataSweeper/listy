@@ -9,5 +9,11 @@
     "default_icon": "logo.png",
     "default_popup": "popup.html"
   },
-  "permissions": [ "tabs", "notifications", "http://*.twitter.com/", "https://*.twitter.com/" ]
+  "permissions": [ "tabs", "notifications", "http://*.twitter.com/", "https://*.twitter.com/" ],
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://*.twitter.com/"],
+      "js": ["library/jquery-2.1.4.min.js", "library/listy-inject.js", "library/listbaby.js"]
+    }
+  ]
 }
