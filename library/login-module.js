@@ -76,5 +76,9 @@ var Login = {
 
   removeLoginCookie: function() {
     this.cookieManager.setCookie("access_token", "");
+  },
+
+  showPopupHref: function() {
+    $("[id=button]").replaceWith('<a href="' + window.location.origin + '/options.html" target="_blank">Login</a>');
   }
 };

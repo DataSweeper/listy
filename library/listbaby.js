@@ -171,12 +171,17 @@ function onWindowLoad() {
 
   Login.loginCookieCheck();
   if(!Login.loginCheck) {
-    console.log("LoginCookie not setted");
-    Login.showLoginButton();
-    Login.setLoginCookie(Login.getUrlParam());
-    console.log(" loginCheck " + Login.loginCheck.toString());
-    if (Login.loginCheck) {
-      Login.showLogoutButton();
+    if (window.location.pathname.replace("/", "") == "popup.html") {
+      Login.showPopupHref();
+    }
+    else {
+      console.log("LoginCookie not setted");
+      Login.showLoginButton();
+      Login.setLoginCookie(Login.getUrlParam());
+      console.log(" loginCheck " + Login.loginCheck.toString());
+      if (Login.loginCheck) {
+        Login.showLogoutButton();
+      }
     }
   }
   else {
