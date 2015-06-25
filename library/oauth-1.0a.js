@@ -75,7 +75,7 @@ function OAuth(opts) {
  * @param  {Object} public and secret token
  * @return {Object} OAuth Authorized data
  */
-OAuth.prototype.authorize = function(request, token) {
+OAuth.prototype.authorize = function(request, token, uri) {
     var oauth_data = {
         oauth_consumer_key: this.consumer.public,
         oauth_nonce: this.getNonce(),
@@ -86,6 +86,10 @@ OAuth.prototype.authorize = function(request, token) {
 
     if(!token) {
         token = {};
+    }
+
+    if (uri) {
+        oauth_data.oauth_callback = uri;
     }
 
     if(token.public) {
@@ -243,9 +247,18 @@ OAuth.prototype.percentEncodeData = function(data) {
  * @param  {Object} oauth_data
  * @return {String} Header data key - value
  */
-OAuth.prototype.toHeader = function(oauth_data) {
+OAuth.prototype.toHeader = function(oauth_data, url) {
+    console.log("1" + oauth_data);
     oauth_data = this.sortObject(oauth_data);
+    console.log("2" + oauth_data);
     var header_value = 'OAuth ';
+
+    if (!url) {
+        console.log("no url come");
+    }
+    else {
+        header_value += "oauth_callback" + '="' + encodeURI(url) + '"' + this.parameter_seperator;
+    }
 
     for(var key in oauth_data) {
         if (key.indexOf('oauth_') === -1)

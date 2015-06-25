@@ -15,5 +15,11 @@
       "matches": ["https://twitter.com/*", "https://*.twitter.com/"],
       "js": ["library/jquery-2.1.4.min.js", "library/listy-inject.js"]
     }
-  ]
+  ],
+  "web_accessible_resources": [
+    "options.html"
+  ],
+
+
+  "options_page": "options.html"
 }
