@@ -1,5 +1,6 @@
-function Listbaby(params, token) {
 
+//listbaby class
+function Listbaby(params, token) {
   //url for list https://api.twitter.com/1.1/lists/list.json, GET
   //url for list members https://api.twitter.com/1.1/lists/members.json, GET, {"list_id" : "203783396"}
   //url for adding member to list https://api.twitter.com/1.1/lists/members/create.json, POST, {"list_id" : "203783396", "screen_name" : "facebook"}
@@ -40,15 +41,6 @@ function Listbaby(params, token) {
   }
 }
 
-var screenName;
-chrome.extension.onMessage.addListener(function(request, sender) {
-  if (request.action == "getSource") {
-    message.innerText = request.source;
-    screenName = request.source.replace("@", "");
-  }
-});
-
-
 Listbaby.prototype.twitterLists = function(jsonObj) {
   this.lists = "";
   console.log(jsonObj.length);
@@ -74,20 +66,12 @@ Listbaby.prototype.twitterLists = function(jsonObj) {
       });
   });
 }
-//helper function
 
-CookieManager.prototype.getAccesstoken = function() {
-      auth_token = this.getAccesstokenOauth("oauth_token");
-      auth_token_secret = this.getAccesstokenOauth("oauth_token_secret");
-      return {
-        public: auth_token,
-        secret: auth_token_secret
-      }
-}
-
+//cookieManager class
 function CookieManager() {
 
 }
+
 CookieManager.prototype.setCookie = function(cname, cvalue) {
     document.cookie = cname + "=" + cvalue;
 }
@@ -134,51 +118,15 @@ CookieManager.prototype.getAccesstokenOauth = function(param) {
           return token;
 }
 
-function TwitterLogin() {
-  this.loggedIn = false;
-}
-
-TwitterLogin.prototype.getUrlParam = function(param) {
-  console.log("siva test");
-  pageUrl = window.location.href;
-  params = pageUrl.split("?")[1];
-  paramsList = params.split("&");
-  for(i = 0; i < paramsList.length; i++) {
-    paramsList[i] = paramsList[i].split("=")
-  }
-  paramsList = paramsList.toString();
-  return paramsList;
-}
-
-TwitterLogin.prototype.setLoginCookie =  function(params) {
-      cookieManager = new CookieManager();
-      paramsList = params.split(",");
-      for (i = 0; i <  paramsList.length; i++) {
-        if (paramsList[i] == "oauth_verifier") {
-          oauth_verifier = paramsList[i+1];
-        }
-      }
-      console.log("oauth_verifier : " + oauth_verifier);
-      auth_token = cookieManager.getRestTokenOauth("oauth_token");
-      auth_token_secret = cookieManager.getRestTokenOauth("oauth_token_secret");
-      token = {
+CookieManager.prototype.getAccesstoken = function() {
+      auth_token = this.getAccesstokenOauth("oauth_token");
+      auth_token_secret = this.getAccesstokenOauth("oauth_token_secret");
+      return {
         public: auth_token,
         secret: auth_token_secret
       }
-      var baby = new Listbaby({url: "https://api.twitter.com/oauth/access_token", method: "POST", data:{"oauth_verifier" : oauth_verifier}}, token);
-      $.ajax({
-         url: baby.request_data.url,
-         type:  baby.request_data.method,
-         data: baby.request_data.data,
-         headers: baby.oauth.toHeader(baby.auth)
-      }).done(function(data){
-          console.log(":) " + data);
-          cookieManager.setCookie("access_token", data.split("&"));
-          auth_token = cookieManager.getAccesstokenOauth("oauth_token");
-          auth_token_secret = cookieManager.getAccesstokenOauth("oauth_token_secret");
-          console.log(auth_token + " :) :) " + auth_token_secret)
-      });
 }
+
 
 //calls from UI
 $("#button").click(function(){
@@ -212,23 +160,46 @@ $("[id=auth_button]").click(function(){
       });
 });
 
+$("[id=logout_button]").click(function(){
+  console.log("check");
+  Login.removeLoginCookie();
+  Login.showLoginButton();
+});
+
+//window onload functions
 function onWindowLoad() {
 
-  console.log("testing")
-  var message = document.querySelector('#message');
+  Login.loginCookieCheck();
+  if(!Login.loginCheck) {
+    console.log("LoginCookie not setted");
+    Login.showLoginButton();
+    Login.setLoginCookie(Login.getUrlParam());
+    console.log(" loginCheck " + Login.loginCheck.toString());
+    if (Login.loginCheck) {
+      Login.showLogoutButton();
+    }
+  }
+  else {
+    Login.showLogoutButton();
+  }
 
+  var message = document.querySelector('#message');
   chrome.tabs.executeScript(null, {
     file: "library/listy-inject.js"
   }, function() {
-    // If you try and inject into an extensions page or the webstore/NTP you'll get an error
     if (chrome.extension.lastError) {
       message.innerText = 'There was an error injecting script : \n' + chrome.extension.lastError.message;
     }
   });
-  
-      loginObj = new TwitterLogin();
-      console.log(loginObj.getUrlParam());
-      loginObj.setLoginCookie(loginObj.getUrlParam());
 }
+
+var screenName;
+
+chrome.extension.onMessage.addListener(function(request, sender) {
+  if (request.action == "getSource") {
+    message.innerText = request.source;
+    screenName = request.source.replace("@", "");
+  }
+});
 
 window.onload = onWindowLoad;
