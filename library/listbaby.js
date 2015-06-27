@@ -104,7 +104,12 @@ CookieManager.prototype.getRestTokenOauth = function(param) {
 
 CookieManager.prototype.getAccesstokenOauth = function(param) {
           token = "";
+          if (this.getCookie("access_token")) {
           cookie = this.getCookie("access_token").split("=");
+          }
+          else {
+            return token;
+          }
           for(i = 0; i < cookie.length; i++) {
             cookie[i] = cookie[i].split(",");
           }
