@@ -1,5 +1,5 @@
 
-//listbaby class
+//listbaby Object
 function Listbaby(params, token) {
   //url for list https://api.twitter.com/1.1/lists/list.json, GET
   //url for list members https://api.twitter.com/1.1/lists/members.json, GET, {"list_id" : "203783396"}
@@ -25,8 +25,8 @@ function Listbaby(params, token) {
   if(!token) {
     console.log("no token");
     this.token = {
-        public: '',
-        secret: ''
+        public: '', //1421407057-w7ZVCAAiPplFkwSJrds3BeuY4E4jhWGCiluPe0F
+        secret: '' //1IkEWx2KDofhR7xmDm3etnvl6tAqr25vDQ6DoPPMWwHfc
     };
   }
   else {
@@ -64,6 +64,19 @@ Listbaby.prototype.twitterLists = function(jsonObj) {
       }).fail(function() {
           alert( "could not be added to list" );
       });
+  });
+}
+
+Listbaby.prototype.showLists = function() {
+  cookieManager = new CookieManager();
+  var baby = new Listbaby({url: "https://api.twitter.com/1.1/lists/list.json", method: "GET", data:{}}, cookieManager.getAccesstoken());
+  $.ajax({
+    url: baby.request_data.url,
+    type:  baby.request_data.method,
+    data: baby.request_data.data,
+    headers: baby.oauth.toHeader(baby.auth)
+    }).done(function(data){
+      baby.twitterLists(data);
   });
 }
 
@@ -147,6 +160,8 @@ $("#button").click(function(){
       });
 });
 
+
+
 $("[id=auth_button]").click(function(){
       var baby = new Listbaby({url: "https://api.twitter.com/oauth/request_token", method: "POST", data:{}, redirecturi: window.location.href});
       cookieManager = new CookieManager();
@@ -190,17 +205,22 @@ function onWindowLoad() {
     }
   }
   else {
+/*    if (window.location.pathname.replace("/", "") == "popup.html") {
+      Login.showPopupHref();
+    } */
     Login.showLogoutButton();
   }
 
   var message = document.querySelector('#message');
+
   chrome.tabs.executeScript(null, {
     file: "library/listy-inject.js"
   }, function() {
     if (chrome.extension.lastError) {
-      message.innerText = 'There was an error injecting script : \n' + chrome.extension.lastError.message;
+      message.innerText = 'Cannot get the twiiter handler.';//chrome.extension.lastError.message
     }
   });
+
 }
 
 var screenName;
