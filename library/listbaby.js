@@ -25,8 +25,8 @@ function Listbaby(params, token) {
   if(!token) {
     console.log("no token");
     this.token = {
-        public: '', //1421407057-w7ZVCAAiPplFkwSJrds3BeuY4E4jhWGCiluPe0F
-        secret: '' //1IkEWx2KDofhR7xmDm3etnvl6tAqr25vDQ6DoPPMWwHfc
+        public: '',
+        secret: ''
     };
   }
   else {
