@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+       <title>ListBaby</title>
+       <link rel="stylesheet" href="css/nav.css">
+       <script  src="../library/jquery-2.1.4.min.js"></script>
+       <script  src="../library/bootstrap.min.js"></script>
+       <script  src="../library/oauth-1.0a.js"></script>
+       <script  src="../library/hmac-sha1.js"></script>
+       <script src="../library/enc-base64-min.js"></script>
+       <script  src="../library/listbaby.js"></script>
+       <script  src="../library/localforage.js"></script>
+       <script  src="../library/User.js"></script>
+       <script  src="../library/store+json2.min.js"></script>
+</head>
+
+<body>
+  <div id="navbar-container">
+    <div id="navbar-content-title">Options</div>
+    <ul id="nav-list">
+      <li id="accounts" class="navbar-item navbar-item-selected"><a href="#">Accounts</a></li>
+      <li id="lists" class="navbar-item"><a href="#list">Lists</a></li>
+      <li id="about" class="navbar-item"><a href="#about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div id="accounts-page" class="accounts page">
+      <section><div id="accountList" class="accountListDIV"></div></section>
+      <section>
+        <h3>Add Account</h3>
+          <div id="addNewAccount">
+          <div id="addNewButton">
+            <button class="addNewButton">Connect twiiter</button>
+          </div>
+          </div>
+      </section>
+    </div>
+    <div id="list" class="lists page">
+      <p>Lists will be shown here.</p>
+    </div>
+    <div id="aboutit" class="about page">
+      <p>@datasweeper</p>
+    </div>
+  </div>
+  <script  src="../library/listbaby.js"></script>
+  <script  src="../library/handlebars.min.js"></script>
+  <script  src="../library/templates/account-template.js"></script>
+  <script type="text/javascript" src="options.js"></script>
+</body>
+
+</html>

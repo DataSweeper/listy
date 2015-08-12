@@ -93,6 +93,7 @@ OAuth.prototype.authorize = function(request, token, uri) {
     }
 
     if(token.public) {
+        console.log("token public : " + token.public);
         oauth_data.oauth_token = token.public;
     }
 

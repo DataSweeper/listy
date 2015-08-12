@@ -1,5 +1,5 @@
 
-//listbaby class
+//listbaby Object
 function Listbaby(params, token) {
   //url for list https://api.twitter.com/1.1/lists/list.json, GET
   //url for list members https://api.twitter.com/1.1/lists/members.json, GET, {"list_id" : "203783396"}
@@ -22,14 +22,16 @@ function Listbaby(params, token) {
   };
 
   this.redirecturi = params.redirecturi;
+  
   if(!token) {
     console.log("no token");
     this.token = {
-        public: '',
+        public: '', 
         secret: ''
     };
   }
   else {
+    console.log(token);
     this.token = token;
   }
   if(!this.redirecturi) {
@@ -41,175 +43,75 @@ function Listbaby(params, token) {
   }
 }
 
-Listbaby.prototype.twitterLists = function(jsonObj) {
-  this.lists = "";
-  console.log(jsonObj.length);
-  for(i=0; i < jsonObj.length; i++) {
-    this.lists = this.lists + '<div><button class="btn btn-default" style="text-align: center" id="inbutton' + i +'" value="' + jsonObj[i].id +'">' + jsonObj[i].name + '</button></div>';
-  }
-  $("body").append(this.lists);
+var twitter_urlcall = {
 
-  $("[id^=inbutton]").click(function(){
-    cookieManager = new CookieManager();
-    var babyObj = new Listbaby({url: "https://api.twitter.com/1.1/lists/members/create.json", method: "POST", data:{"list_id" : $(this).prop("value"), "screen_name" : screenName}}, cookieManager.getAccesstoken());
-    console.log(babyObj.request_data.method);  
-      $.ajax({
-         url: babyObj.request_data.url,
-         type:  babyObj.request_data.method,
-         data: babyObj.request_data.data,
-         headers: babyObj.oauth.toHeader(babyObj.auth)
-      }).done(function(data){
-          alert("added");
-          console.log("added");
-      }).fail(function() {
-          alert( "could not be added to list" );
-      });
-  });
-}
+    t_response_to_json: function(params) {
+    string = '"'+params.replace(/=/gi, '":"').replace(/&/gi, '","')+'"';;
+    string = "{" + string + "}";
+    return JSON.parse(string); // return json
+  },
 
-//cookieManager class
-function CookieManager() {
-
-}
-
-CookieManager.prototype.setCookie = function(cname, cvalue) {
-    document.cookie = cname + "=" + cvalue;
-}
-
-CookieManager.prototype.getCookie = function(cname) {
-  var cookie = document.cookie;
-  cookieList = cookie.split(";");
-  for(i = 0; i < cookieList.length; i++) {
-    firstKey = cookieList[i].split("=")[0];
-      if (firstKey.trim() == cname) {
-        return cookieList[i];
-      }
-  }
-}
-
-CookieManager.prototype.getRestTokenOauth = function(param) {
-            cookie = this.getCookie("request_token").split("=");
-          for(i = 0; i < cookie.length; i++) {
-            cookie[i] = cookie[i].split(",");
-          }
-          cookie = cookie.toString().split(",");
-          console.log(cookie);
-          for(i = 0; i < cookie.length; i++) {
-            if (cookie[i] == param) {
-              token = cookie[i+1];
-            }
-          }
-          return token;
-}
-
-CookieManager.prototype.getAccesstokenOauth = function(param) {
-          token = "";
-          if (this.getCookie("access_token")) {
-          cookie = this.getCookie("access_token").split("=");
-          }
-          else {
-            return token;
-          }
-          for(i = 0; i < cookie.length; i++) {
-            cookie[i] = cookie[i].split(",");
-          }
-          cookie = cookie.toString().split(",");
-          console.log(cookie.length);
-          for(i = 0; i < cookie.length; i++) {
-            if (cookie[i] == param) {
-              token = cookie[i+1];
-            }
-          }
-          return token;
-}
-
-CookieManager.prototype.getAccesstoken = function() {
-      auth_token = this.getAccesstokenOauth("oauth_token");
-      auth_token_secret = this.getAccesstokenOauth("oauth_token_secret");
-      return {
-        public: auth_token,
-        secret: auth_token_secret
-      }
-}
-
-
-//calls from UI
-$("#button").click(function(){
-      cookieManager = new CookieManager();
-      var baby = new Listbaby({url: "https://api.twitter.com/1.1/lists/list.json", method: "GET", data:{}}, cookieManager.getAccesstoken());
+  request_token: function() {
+     console.log("Getting request_token:");
+     var baby = new Listbaby({url: "https://api.twitter.com/oauth/request_token", method: "POST", data:{}, redirecturi: window.location.href});
+     var return_data;
       $.ajax({
          url: baby.request_data.url,
          type:  baby.request_data.method,
          data: baby.request_data.data,
-         headers: baby.oauth.toHeader(baby.auth)
+         headers: baby.oauth.toHeader(baby.auth),
+         async: false
       }).done(function(data){
-          baby.twitterLists(data);
+          store.set('request_token', twitter_urlcall.t_response_to_json(data));
+          return_data = twitter_urlcall.t_response_to_json(data);
       });
-});
+      return return_data;
+  },
 
-$("[id=auth_button]").click(function(){
-      var baby = new Listbaby({url: "https://api.twitter.com/oauth/request_token", method: "POST", data:{}, redirecturi: window.location.href});
-      cookieManager = new CookieManager();
-      console.log(baby.auth);
+  getUserInfo: function(data) {
+
+    token = {
+        public: data.oauth_token,
+        secret: data.oauth_token_secret
+      }
+
+      var baby = new Listbaby({url: "https://api.twitter.com/1.1/users/show.json", method: "GET", data:{"user_id" : data.user_id}}, token);
       $.ajax({
          url: baby.request_data.url,
          type:  baby.request_data.method,
          data: baby.request_data.data,
-         headers: baby.oauth.toHeader(baby.auth)
-      }).done(function(data){
-          cookieManager.setCookie("request_token", data.split("&"));
-          auth_token = cookieManager.getRestTokenOauth("oauth_token");
-          auth_token_secret = cookieManager.getRestTokenOauth("oauth_token_secret");
-          console.log(auth_token + " :) " + auth_token_secret)
-          window.open("https://api.twitter.com/oauth/authorize?oauth_token="+auth_token);
-      });
-});
+         headers: baby.oauth.toHeader(baby.auth),
+         async:   false
+      }).done(function(userdata){
+          data["image"] = userdata.profile_image_url_https;
+          data["name"] = userdata.name;
+     });      
+     console.log("Final user data : " + JSON.stringify(data));
+     return data;
+  },
 
-$("[id=logout_button]").click(function(){
-  console.log("check");
-  Login.removeLoginCookie();
-  Login.showLoginButton();
-});
-
-//window onload functions
-function onWindowLoad() {
-
-  Login.loginCookieCheck();
-  if(!Login.loginCheck) {
-    if (window.location.pathname.replace("/", "") == "popup.html") {
-      Login.showPopupHref();
-    }
-    else {
-      console.log("LoginCookie not setted");
-      Login.showLoginButton();
-      Login.setLoginCookie(Login.getUrlParam());
-      console.log(" loginCheck " + Login.loginCheck.toString());
-      if (Login.loginCheck) {
-        Login.showLogoutButton();
+  access_Token: function(data) {
+      var return_data;
+      value = store.get('request_token');
+      token = {
+        public: value.oauth_token,
+        secret: value.oauth_token_secret
       }
-    }
+      var baby = new Listbaby({url: "https://api.twitter.com/oauth/access_token", method: "POST", data:{"oauth_verifier" : data.oauth_verifier}}, token);
+      console.log(baby.oauth.toHeader(baby.auth));
+      $.ajax({
+         url: baby.request_data.url,
+         type:  baby.request_data.method,
+         data: baby.request_data.data,
+         headers: baby.oauth.toHeader(baby.auth),
+         async:   false
+      }).done(function(data){
+          console.log("access_Token json : " + JSON.stringify(twitter_urlcall.t_response_to_json(data)));
+          return_data = twitter_urlcall.getUserInfo(twitter_urlcall.t_response_to_json(data));
+     });
+      console.log("returned data : " + return_data);
+      return return_data;
   }
-  else {
-    Login.showLogoutButton();
-  }
+};
 
-  var message = document.querySelector('#message');
-  chrome.tabs.executeScript(null, {
-    file: "library/listy-inject.js"
-  }, function() {
-    if (chrome.extension.lastError) {
-      message.innerText = 'There was an error injecting script : \n' + chrome.extension.lastError.message;
-    }
-  });
-}
 
-var screenName;
-
-chrome.extension.onMessage.addListener(function(request, sender) {
-  if (request.action == "getSource") {
-    message.innerText = request.source;
-    screenName = request.source.replace("@", "");
-  }
-});
-
-window.onload = onWindowLoad;

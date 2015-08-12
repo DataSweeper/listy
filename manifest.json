@@ -2,11 +2,11 @@
   "manifest_version": 2,
 
   "name": "listy",
-  "description": "This extension shows a Google Image search result for the current page",
+  "description": "Listy a twitter list manager",
   "version": "1.0",
  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://api.twitter.com; object-src 'self'",
   "browser_action": {
-    "default_icon": "img/logo.png",
+    "default_icon": "img/listy.jpg",
     "default_popup": "popup.html"
   },
   "permissions": [ "tabs", "notifications", "http://*.twitter.com/", "https://*.twitter.com/" ],
@@ -16,10 +16,8 @@
       "js": ["library/jquery-2.1.4.min.js", "library/listy-inject.js"]
     }
   ],
-  "web_accessible_resources": [
-    "options.html"
+    "web_accessible_resources": [
+    "options/index.html"
   ],
-
-
-  "options_page": "options.html"
+  "options_page": "options/index.html"
 }
