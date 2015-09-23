@@ -64,6 +64,15 @@ UserManager = (function () {
 
       enableUser: function () {
 
+      },
+      getUserObj: function (user_id) {
+        var r_val;
+        $.each(userList, function(i,obj) {
+          if (obj.user_id === user_id) {
+            r_val = obj;
+          }
+        });
+        return r_val;
       }
 
     };

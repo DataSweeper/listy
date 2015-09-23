@@ -23,10 +23,21 @@
 		window.open(window.location.origin + "/options/index.html", "_self");
 	});
 
+	$("body").on("click", ".list-user", function() {
+		console.log("id" + this.id);
+		lists = twitter_urlcall.tUrlCaller(userObj.getUserObj(this.id), "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : this.id});
+		$("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
+	});
+
 	function renderAccountsPage(account) {
 		$("#accountList").html("");
         $("[id=accountList]").html(Handlebars.templates["account-template.handlebarse"](account));
 	}
+
+    function renderListPage() {
+    	userList = userObj.getUserList();
+    	$("[id=list-users]").html(Handlebars.templates["list-user-template.handlebarse"](userList));
+    }
 
 	$("[id=addNewButton]").click(function() {
 		requestTokenObj = twitter_urlcall.request_token();
@@ -77,13 +88,13 @@
 
 			// Single Products page.
 			'#list': function() {
-
 				$("[id=accounts]").removeClass('navbar-item navbar-item-selected').addClass('navbar-item');
 				$("[id=about]").removeClass('navbar-item navbar-item-selected').addClass('navbar-item');
 				$("[id=lists]").addClass('navbar-item navbar-item-selected');
 				$("#accounts-page").hide();
 				$("#aboutit").hide();
 				$("#list").show();
+				renderListPage();
 			},
 
 			// Page with filtered products

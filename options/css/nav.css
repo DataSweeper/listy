@@ -147,3 +147,43 @@ ul {
   color: #333;
   margin-bottom: 20px;
 }
+
+.list-user {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}
+
+.list-users {
+  background-color: #f1f1f1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+  overflow: auto;
+}
+
+.list-list {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}
+
+.list-lists {
+  background-color: #f1f1f1;
+  position: absolute;
+  bottom: 0;
+  overflow: auto;
+  left: 580px;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+}

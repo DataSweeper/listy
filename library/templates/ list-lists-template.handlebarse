@@ -1,0 +1,5 @@
+{{#each this}}
+	<div class="list-list" id="{{user_id}}" style="cursor: pointer;">
+		<h1>{{slug}}</h1>
+    </div>
+{{/each}}

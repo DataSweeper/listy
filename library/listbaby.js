@@ -111,6 +111,24 @@ var twitter_urlcall = {
      });
       console.log("returned data : " + return_data);
       return return_data;
+  },
+  tUrlCaller : function ( user, url, method, data ) {
+    var r_val;
+    token = {
+      public: user.oauth_token,
+      secret: user.oauth_token_secret
+    }
+    var baby = new Listbaby({url: url, method: method, data: data}, token);
+    $.ajax({
+         url: baby.request_data.url,
+         type:  baby.request_data.method,
+         data: baby.request_data.data,
+         headers: baby.oauth.toHeader(baby.auth),
+         async:   false
+      }).done(function(data){
+        r_val = data;
+     });
+    return r_val;
   }
 };
 
