@@ -7,7 +7,7 @@
 	userList = userObj.getUserList();
 	console.log("user list : " + userList);*/
 	userObj = UserManager.getInstance();
-
+    selectedUser = userObj.getAUser();
 	$(window).load(function(){
 		render(window.location.hash);
 	});
@@ -25,8 +25,16 @@
 
 	$("body").on("click", ".list-user", function() {
 		console.log("id" + this.id);
-		lists = twitter_urlcall.tUrlCaller(userObj.getUserObj(this.id), "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : this.id});
+		selectedUser = userObj.getUserObj(this.id);
+		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
+		console.log(" lists : " + JSON.stringify(lists));
 		$("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
+	});
+
+	$("body").on("click", ".list-list", function() {
+		listusers = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/members.json", "GET", {"slug" : this.id,"owner_id" : selectedUser.user_id});
+		//console.log(JSON.stringify(listusers.users));
+		$("[id=lists-users]").html(Handlebars.templates["list-users-template.handlebarse"](listusers.users))
 	});
 
 	function renderAccountsPage(account) {
@@ -34,9 +42,11 @@
         $("[id=accountList]").html(Handlebars.templates["account-template.handlebarse"](account));
 	}
 
-    function renderListPage() {
+    function renderListPage(user) {
     	userList = userObj.getUserList();
     	$("[id=list-users]").html(Handlebars.templates["list-user-template.handlebarse"](userList));
+    	lists = twitter_urlcall.tUrlCaller(user, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : user.user_id});
+		$("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
     }
 
 	$("[id=addNewButton]").click(function() {
@@ -94,7 +104,9 @@
 				$("#accounts-page").hide();
 				$("#aboutit").hide();
 				$("#list").show();
-				renderListPage();
+				if (selectedUser) {
+					renderListPage(selectedUser);
+				}
 			},
 
 			// Page with filtered products

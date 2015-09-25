@@ -187,3 +187,23 @@ ul {
   height: 665px;
   z-index: 2;
 }
+
+.lists-users {
+  background-color: #f1f1f1;
+  position: absolute;
+  bottom: 0;
+  overflow: auto;
+  left: 940px;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+}
+
+.lists-user {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}

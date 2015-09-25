@@ -73,8 +73,16 @@ UserManager = (function () {
           }
         });
         return r_val;
+      },
+      getAUser: function () {
+        var r_val;
+        $.each(userList, function(i,obj) {
+          if (i === 0 ) {
+            r_val = obj;
+          }
+        });
+        return r_val;
       }
-
     };
 
   };

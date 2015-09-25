@@ -1,12 +1,12 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['list-user-template.handlebarse'] = template({"1":function(depth0,helpers,partials,data) {
+templates['list-users-template.handlebarse'] = template({"1":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "	<div class=\"list-user\" id=\""
-    + alias3(((helper = (helper = helpers.user_id || (depth0 != null ? depth0.user_id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"user_id","hash":{},"data":data}) : helper)))
+  return "	<div class=\"lists-user\" id=\""
+    + alias3(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" style=\"cursor: pointer;\">\n		<table>\n			<tr>\n				<td><img width=\"50\" height=\"50\" src=\""
-    + alias3(((helper = (helper = helpers.image || (depth0 != null ? depth0.image : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"image","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.profile_image_url || (depth0 != null ? depth0.profile_image_url : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"profile_image_url","hash":{},"data":data}) : helper)))
     + "\"></td>\n				<td><h1>"
     + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
     + "</h1></td>\n			</tr>\n		</table>\n</div>\n";
