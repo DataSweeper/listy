@@ -30,6 +30,7 @@ UserManager = (function () {
 
       addUser: function (userObj) {
         test = false;
+        userObj["list"] = [];
         $.each(userList, function(i,obj) {
           if (obj.user_id === userObj.user_id) {
             console.log("User already present.");
@@ -58,6 +59,16 @@ UserManager = (function () {
         store.set('userList', userList);
       },
 
+      updateUser: function (user) {
+        $.each(userList, function(i,obj) {
+          if (obj.user_id === user.user_id) {
+            userList[i] = user;
+          }
+        });
+        console.log(userList);
+        store.set('userList', userList);
+      },
+
       diableUser: function () {
 
       },
@@ -82,6 +93,24 @@ UserManager = (function () {
           }
         });
         return r_val;
+      },
+      addList(obj, list) {
+        obj = obj.list.push(list);
+        this.updateUser(obj); 
+      },
+      removeList(obj, list) {
+        t = [];
+        $.each(obj.list, function(i,l) {
+          console.log("list " + l);
+          if (l === list) {
+            //continue;
+          }
+          else {
+            t.push(obj.list[i]);
+          }
+        });
+        obj.list =  t;
+        this.updateUser(obj);
       }
     };
 

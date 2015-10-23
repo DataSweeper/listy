@@ -207,3 +207,16 @@ ul {
   border: 2px solid navy;
   margin: 2px;
 }
+
+.close {
+  position: relative;
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+
+.close:hover {
+  opacity: 1;
+}

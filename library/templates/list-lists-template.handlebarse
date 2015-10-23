@@ -1,5 +1,6 @@
 {{#each this}}
-	<div class="list-list" id="{{slug}}" style="cursor: pointer;">
-		<h1>{{slug}}</h1>
+    <div class="list-list" id="{{slug}}" style="cursor: pointer;">
+      <h1>{{slug}}</h1>
     </div>
+    <input type="checkbox" value="{{id}}" id="checklist" {{#if ischecked}} checked {{/if}}/>
 {{/each}}

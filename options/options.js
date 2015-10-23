@@ -27,7 +27,15 @@
 		console.log("id" + this.id);
 		selectedUser = userObj.getUserObj(this.id);
 		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
-		console.log(" lists : " + JSON.stringify(lists));
+		//console.log(" lists : " + JSON.stringify(lists));
+        $.each(selectedUser.list, function(i,obj) {
+          $.each(lists, function(j,obj1) {
+            if (obj == obj1.id) {
+              lists[j].ischecked = true;
+            //userList[i] = user;
+            }
+         });
+        }); 
 		$("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
 	});
 
@@ -37,6 +45,7 @@
 		$("[id=lists-users]").html(Handlebars.templates["list-users-template.handlebarse"](listusers.users))
 	});
 
+
 	function renderAccountsPage(account) {
 		$("#accountList").html("");
         $("[id=accountList]").html(Handlebars.templates["account-template.handlebarse"](account));
@@ -44,12 +53,32 @@
 
     function renderListPage(user) {
     	userList = userObj.getUserList();
+        console.log("check1");
     	$("[id=list-users]").html(Handlebars.templates["list-user-template.handlebarse"](userList));
     	lists = twitter_urlcall.tUrlCaller(user, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : user.user_id});
-		$("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
+        $.each(user.list, function(i,obj) {
+          $.each(lists, function(j,obj1) {
+            if (obj == obj1.id) {
+              lists[j].ischecked = true;
+            //userList[i] = user;
+            }
+         });
+        }); 
+        $("[id=list-lists]").html(Handlebars.templates["list-lists-template.handlebarse"](lists))
     }
 
-	$("[id=addNewButton]").click(function() {
+  $("body").on("click", "#checklist", function() {
+     console.log("tarted.");
+     if (this.checked) {
+       console.log("slug " + this.value);
+       userObj.addList(selectedUser, this.value)
+     }
+     else {
+       userObj.removeList(selectedUser, this.value)
+     }
+  });
+
+  $("[id=addNewButton]").click(function() {
 		requestTokenObj = twitter_urlcall.request_token();
 		window.open("https://api.twitter.com/oauth/authorize?oauth_token="+requestTokenObj.oauth_token, "_self");
 	});
