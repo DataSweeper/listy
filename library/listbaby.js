@@ -24,21 +24,18 @@ function Listbaby(params, token) {
   this.redirecturi = params.redirecturi;
   
   if(!token) {
-    console.log("no token");
     this.token = {
         public: '', 
         secret: ''
     };
   }
   else {
-    console.log(token);
     this.token = token;
   }
   if(!this.redirecturi) {
   this.auth =  this.oauth.authorize(this.request_data, this.token);
   }
   else {
-    console.log("else");
     this.auth =  this.oauth.authorize(this.request_data, this.token, this.redirecturi);
   }
 }
@@ -52,7 +49,6 @@ var twitter_urlcall = {
   },
 
   request_token: function() {
-     console.log("Getting request_token:");
      var baby = new Listbaby({url: "https://api.twitter.com/oauth/request_token", method: "POST", data:{}, redirecturi: window.location.href});
      var return_data;
       $.ajax({
@@ -86,7 +82,6 @@ var twitter_urlcall = {
           data["image"] = userdata.profile_image_url_https;
           data["name"] = userdata.name;
      });      
-     console.log("Final user data : " + JSON.stringify(data));
      return data;
   },
 
@@ -98,7 +93,6 @@ var twitter_urlcall = {
         secret: value.oauth_token_secret
       }
       var baby = new Listbaby({url: "https://api.twitter.com/oauth/access_token", method: "POST", data:{"oauth_verifier" : data.oauth_verifier}}, token);
-      console.log(baby.oauth.toHeader(baby.auth));
       $.ajax({
          url: baby.request_data.url,
          type:  baby.request_data.method,
@@ -106,10 +100,8 @@ var twitter_urlcall = {
          headers: baby.oauth.toHeader(baby.auth),
          async:   false
       }).done(function(data){
-          console.log("access_Token json : " + JSON.stringify(twitter_urlcall.t_response_to_json(data)));
           return_data = twitter_urlcall.getUserInfo(twitter_urlcall.t_response_to_json(data));
      });
-      console.log("returned data : " + return_data);
       return return_data;
   },
   tUrlCaller : function ( user, url, method, data ) {

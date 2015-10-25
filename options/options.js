@@ -6,25 +6,31 @@
 	console.log("check : " + userObj.getUserList());
 	userList = userObj.getUserList();
 	console.log("user list : " + userList);*/
+
 	userObj = UserManager.getInstance();
     selectedUser = userObj.getAUser();
 	$(window).load(function(){
 		render(window.location.hash);
 	});
 
+       chrome.runtime.onStartup.addListener(function() {
+         Starter();
+       });
+
+       chrome.runtime.onInstalled.addListener(function() {
+         Starter(); 
+       });
+
 	$(window).on('hashchange', function(){
-		console.log("check : " + window.location.hash);
 		render(window.location.hash);
 	});
 
 	$("body").on("click", ".logout", function() {
-		console.log("logout click action");
 		userObj.removeUser(this.id);
 		window.open(window.location.origin + "/options/index.html", "_self");
 	});
 
 	$("body").on("click", ".list-user", function() {
-		console.log("id" + this.id);
 		selectedUser = userObj.getUserObj(this.id);
 		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
 		//console.log(" lists : " + JSON.stringify(lists));
@@ -53,7 +59,6 @@
 
     function renderListPage(user) {
     	userList = userObj.getUserList();
-        console.log("check1");
     	$("[id=list-users]").html(Handlebars.templates["list-user-template.handlebarse"](userList));
     	lists = twitter_urlcall.tUrlCaller(user, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : user.user_id});
         $.each(user.list, function(i,obj) {
@@ -68,9 +73,7 @@
     }
 
   $("body").on("click", "#checklist", function() {
-     console.log("tarted.");
      if (this.checked) {
-       console.log("slug " + this.value);
        userObj.addList(selectedUser, this.value)
      }
      else {
@@ -106,20 +109,16 @@
 
 				    if (window.location.search.slice(1)) {
 				    	data = twitter_urlcall.access_Token(twitter_urlcall.t_response_to_json(window.location.search.slice(1)));
-				    	console.log(":)) " + JSON.stringify(data));
 				    	userObj.addUser(data);
 				    	window.open(window.location.origin + "/options/index.html", "_self");
 				    }
 
-				    console.log("routing works check");
 					userList = userObj.getUserList();
-					console.log("routing works userList : " + JSON.stringify(userList));
 					if(userList) {
 					if(userList.length > 0) {
 						renderAccountsPage(userList);
 					}
 					else {
-						console.log("else part");
 						$("#accountList").html('<div class="account"><span><h3>No accounts connected</h3></span></div>')
 					}
 					}

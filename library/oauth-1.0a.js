@@ -93,7 +93,6 @@ OAuth.prototype.authorize = function(request, token, uri) {
     }
 
     if(token.public) {
-        console.log("token public : " + token.public);
         oauth_data.oauth_token = token.public;
     }
 
@@ -249,13 +248,10 @@ OAuth.prototype.percentEncodeData = function(data) {
  * @return {String} Header data key - value
  */
 OAuth.prototype.toHeader = function(oauth_data, url) {
-    console.log("1" + oauth_data);
     oauth_data = this.sortObject(oauth_data);
-    console.log("2" + oauth_data);
     var header_value = 'OAuth ';
 
     if (!url) {
-        console.log("no url come");
     }
     else {
         header_value += "oauth_callback" + '="' + encodeURI(url) + '"' + this.parameter_seperator;

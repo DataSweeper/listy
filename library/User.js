@@ -1,7 +1,9 @@
+var bgFactory = new BgFactory();
+var bg = chrome.extension.getBackgroundPage(); 
+
 UserManager = (function () {
  
   var instance;
- 
   function init() {
  
     // Private properties
@@ -39,9 +41,9 @@ UserManager = (function () {
         });
 
         if (!test) {
-          console.log("User not present already " + userList);
           userList.push(userObj);
-          store.set('userList', userList); 
+          bgFactory.add('user', userObj)
+          store.set('userList', userList);
         }
       },
 
@@ -49,7 +51,7 @@ UserManager = (function () {
         t1 = [];
         $.each(userList, function(i,obj) {
           if (obj.user_id === user_id) {
-            console.log("removeUser : " + user_id);
+            bgFactory.del('user', obj);
           }
           else {
              t1.push(obj);
@@ -95,15 +97,18 @@ UserManager = (function () {
         return r_val;
       },
       addList(obj, list) {
+        bgFactory.add('list', {user: obj, list: list});
         obj = obj.list.push(list);
         this.updateUser(obj); 
       },
       removeList(obj, list) {
+        console.log(obj)
+        console.log(list)
+        bgFactory.del('list', {user: obj, list: list});
         t = [];
         $.each(obj.list, function(i,l) {
           console.log("list " + l);
           if (l === list) {
-            //continue;
           }
           else {
             t.push(obj.list[i]);
@@ -130,3 +135,77 @@ UserManager = (function () {
   };
  
 })();
+
+
+function addUser (user) {
+  test = false;
+   $.each(bg.userList, function(i,obj) {
+     if (obj.user_id === user.user_id) {
+       console.log("User already present.");
+       test = true;
+     }
+   });
+
+   if (!test) {
+     bg.userList.push(user);
+   }
+}
+
+function addList (object) {
+  for (var i = 0; i < bg.userList.length; i++) {
+    if (bg.userList[i].user_id === object.user.user_id) {
+        bg.userList[i].list.push(object.list);
+    }
+  }
+}
+
+function delUser (user) {
+  $.each(bg.userList, function(i,obj) {
+    if (obj.user_id === user.user_id) {
+      bg.userList.splice(i,1);
+    }
+  });
+}
+
+function delList (object) {
+  for (var i = 0; i < bg.userList.length; i++) {
+    if (bg.userList[i].user_id === object.user.user_id) {
+      for (var j = 0; j < bg.userList[i].list.length; j++) {
+        if (bg.userList[i].list[j] === object.list) {
+          bg.userList[i].list.splice(j,1);
+        }
+      }
+    }
+  }
+}
+
+function BgFactory () {}
+
+BgFactory.prototype.add = function a(option, content) {
+  var parentClass = null;
+  if (option === 'user') {
+    parentClass = addUser;
+  }
+  else if (option === 'list') {
+    parentClass = addList;
+  }  
+  if (parentClass === null) {
+    return false;
+  }
+  return new parentClass( content );
+}
+
+BgFactory.prototype.del = function d(option, content) {
+  var parentClass = null;
+  if (option === 'user') {
+    parentClass = delUser;
+  }
+  else if (option === 'list') {
+    parentClass = delList;
+  }  
+  if (parentClass === null) {
+    return false;
+  }
+  return new parentClass( content );
+}
+
