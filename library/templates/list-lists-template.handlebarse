@@ -1,0 +1,9 @@
+<table>
+{{#each this}}
+   <tr>
+    <td><div class="list-list" id="{{slug}}" style="cursor: pointer;">
+      <h1>{{slug}}</h1>
+    </div><td>
+   <td> <input type="checkbox" value="{{id}}" id="checklist" {{#if ischecked}} checked {{/if}}/></td></tr>
+{{/each}}
+</table>

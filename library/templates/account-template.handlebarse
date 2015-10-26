@@ -1,0 +1,7 @@
+{{#each this}}
+<div class="accountList">
+	<img width="128" height="128" src="{{image}}">
+	<h1>{{name}}</h1>
+    <button class="logout"  id="{{user_id}}">Logout</button>
+</div>
+{{/each}}

@@ -1,0 +1,222 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#navbar-container {
+  -webkit-border-end: 1px solid #c6c9ce;
+  background-color: #f1f1f1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 216px;
+  z-index: 2;
+}
+
+#navbar-content-title {
+  -webkit-padding-end: 24px;
+  -webkit-user-select: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 200%;
+  font-weight: normal;
+  margin: 0;
+  padding-bottom: 14px;
+  padding-top: 13px;
+  text-align: end;
+  text-shadow: white 0 1px 2px;
+}
+
+.navbar-item {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  color: #333;
+  cursor: pointer;
+  display: block;
+  font-size: 105%;
+  outline: none;
+  padding: 7px 0;
+  text-align: end;
+  text-shadow: white 0 1px 1px;
+  -webkit-padding-end: 24px;
+}
+
+.navbar-item-selected {
+  -webkit-box-shadow: 0 1px 0 #f7f7f7;
+  background-color: #bbcee9;
+  border-bottom: 1px solid #8faad9;
+  border-top: 1px solid #8faad9;
+  color: black;
+  text-shadow: #bbcee9 0 1px 1px;
+}
+
+.main-content {
+  -webkit-box-align: stretch;
+  -webkit-padding-start: 216px;
+  margin: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  min-height: 100%;
+  position: relative;
+}
+
+
+.accountList {
+  box-sizing:border-box;
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+
+  text-align:left;
+  font:normal 12px sans-serif;
+
+  background-color:#ffffff;
+  border:1px solid #dbe3e7;
+  border-radius: 3px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+
+  margin: 0 12px 14px 0;
+  padding: 25px;
+}
+
+.accountList .logout {
+  border-radius: 2px;
+  background-color: #E18791;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  border: 0;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  width: 95px;
+  height: 32px;
+}
+
+.accountList .disable {
+  border-radius: 2px;
+  background-color: #87bae1;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  border: 0;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  width: 95px;
+  height: 32px;
+}
+
+.addNewAccount {
+  box-sizing:border-box;
+  /*display: inline-block;*/
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+  text-align:left;
+  font:normal 12px sans-serif;
+  background-color:#ffffff;
+  border:1px solid #dbe3e7;
+  border-radius: 3px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+  margin: 0 12px 14px 0;
+  padding: 25px;
+}
+
+.addNewButton {
+  display: inline-block;
+  border-radius: 2px;
+  background-color: #87bae1;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  border: 0;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  height: 32px;
+}
+
+.accountListDiv {
+  border-bottom: 5px solid #999;
+  padding-bottom: 15px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.list-user {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}
+
+.list-users {
+  background-color: #f1f1f1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+  overflow: auto;
+}
+
+.list-list {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}
+
+.list-lists {
+  background-color: #f1f1f1;
+  position: absolute;
+  bottom: 0;
+  overflow: auto;
+  left: 580px;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+}
+
+.lists-users {
+  background-color: #f1f1f1;
+  position: absolute;
+  bottom: 0;
+  overflow: auto;
+  left: 940px;
+  top: 0;
+  width: 350px;
+  height: 665px;
+  z-index: 2;
+}
+
+.lists-user {
+  background-color: lightgrey;
+  /* width: 300px; */
+  padding: 25px;
+  border: 2px solid navy;
+  margin: 2px;
+}
+
+.close {
+  position: relative;
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+
+.close:hover {
+  opacity: 1;
+}

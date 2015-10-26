@@ -1,0 +1,10 @@
+{{#each this}}
+	<div class="lists-user" id="{{id}}" style="cursor: pointer;">
+		<table>
+			<tr>
+				<td><img width="50" height="50" src="{{profile_image_url}}"></td>
+				<td><h1>{{name}}</h1></td>
+			</tr>
+		</table>
+</div>
+{{/each}}
