@@ -2,7 +2,6 @@ var nFactory = new notificationFactory();
 
 
 function notifyTweet ( options ) {
-   console.log(options.user.profile_image_url_https);
    chrome.notifications.create(getNotificationId(), {
      title: options.user.name,
      iconUrl: options.user.profile_image_url_https.replace("normal", "reasonably_small"),
@@ -66,9 +65,7 @@ var notifying = [];
 function NotifyStarter() {
   this.userlist = userList;
   for (var i = 0; i < this.userlist.length; i++) {
-    console.log(this.userlist[i]);
     for (var j = 0; j < this.userlist[i].list.length; j++) {
-      console.log("calling add to list " +  i + " : " + j + " : " + this.userList[i] + " : " +  this.userList[i].list[j]);
       addToNotifying(this.userlist[i], this.userlist[i].list[j]);
     }
   }
@@ -90,7 +87,6 @@ function NotifyStarter() {
 }
 
 function addToNotifying(user, list) {
-  console.log("inside add notify " + user + " : " + list)
   test = false;
   for (var i = 0; i < notifying.length; i++) {
     if (notifying[i].list == list && notifying[i].user.user_id == user.user_id) {
@@ -98,7 +94,6 @@ function addToNotifying(user, list) {
    }
   }
   if (!test) {
-      console.log("inside !test calling ");
       id = setInterval(function(){ new listNotifier(user, list); }, 60000);
       notifying.push({id: id, user: user, list: list, date: new Date});
   }
@@ -109,11 +104,7 @@ function listNotifier(user, list) {
     if (notifying[i].list == list && notifying[i].user.user_id == user.user_id) {
     this.timeline = twitter_urlcall.tUrlCaller(notifying[i].user,"https://api.twitter.com/1.1/lists/statuses.json", "GET", {"list_id": notifying[i].list} )
   for(var j = 0; j < this.timeline.length; j++) {
-    console.log("before if....");
-    console.log(Date.parse(notifying[i].date));
-    console.log(Date.parse(this.timeline[j].created_at));
     if (Date.parse(this.timeline[j].created_at) > Date.parse(notifying[i].date)) {
-      console.log("inside if ....");
       nFactory.creat('tweet', this.timeline[j]);
       notifying[i].date = this.timeline[j].created_at;
     }

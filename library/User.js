@@ -103,12 +103,9 @@ UserManager = (function () {
         this.updateUser(obj); 
       },
       removeList(obj, list) {
-        console.log(obj)
-        console.log(list)
         bgFactory.del('list', {user: obj, list: list});
         t = [];
         $.each(obj.list, function(i,l) {
-          console.log("list " + l);
           if (l === list) {
           }
           else {
