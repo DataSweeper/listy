@@ -1,8 +1,12 @@
-/*ul {
+ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-}*/
+}
+
+a:link {
+    text-decoration: none;
+}
 
 #navbar-container {
   -webkit-border-end: 1px solid #c6c9ce;
@@ -162,7 +166,7 @@
 .list-users {
   /*background-color: #f1f1f1; */
   -webkit-border-end: 1px solid #c6c9ce;
-  top: 0;
+  top: 10px;
   bottom: 0;
   position: fixed;
   width: 500px

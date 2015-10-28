@@ -40,7 +40,6 @@
                 $(this).css('background-color', 'lightgrey');
 		selectedUser = userObj.getUserObj(this.id);
 		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
-		console.log(" lists : " + JSON.stringify(lists));
         $.each(selectedUser.list, function(i,obj) {
           $.each(lists, function(j,obj1) {
             if (obj == obj1.id) {
