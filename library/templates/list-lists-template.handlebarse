@@ -2,8 +2,8 @@
 {{#each this}}
    <tr>
     <td><div class="list-list" id="{{slug}}" style="cursor: pointer;">
-      <h1>{{slug}}</h1>
-    </div><td>
+    <table><tr><td><img src="{{twitterImg user.profile_image_url_https}}" width="50" height="50"/></td> <td><h1>{{slug}}</h1></td></tr></table>
+    </div></td>
    <td> <input type="checkbox" value="{{id}}" id="checklist" {{#if ischecked}} checked {{/if}}/></td></tr>
 {{/each}}
 </table>

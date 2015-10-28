@@ -9,6 +9,10 @@
 
 	userObj = UserManager.getInstance();
         selectedUser = userObj.getAUser();
+        Handlebars.registerHelper("twitterImg", function(imgUrl){
+          return imgUrl.replace("normal", "reasonably_small");
+        });
+
         manifest = chrome.runtime.getManifest();
 	$(window).load(function(){
 		render(window.location.hash);
@@ -36,7 +40,7 @@
                 $(this).css('background-color', 'lightgrey');
 		selectedUser = userObj.getUserObj(this.id);
 		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
-		//console.log(" lists : " + JSON.stringify(lists));
+		console.log(" lists : " + JSON.stringify(lists));
         $.each(selectedUser.list, function(i,obj) {
           $.each(lists, function(j,obj1) {
             if (obj == obj1.id) {
@@ -87,7 +91,7 @@
 
   $("[id=addNewButton]").click(function() {
 		requestTokenObj = twitter_urlcall.request_token();
-		window.open("https://api.twitter.com/oauth/authorize?oauth_token="+requestTokenObj.oauth_token, "_self");
+		window.open("https://api.twitter.com/oauth/authorize?oauth_token="+requestTokenObj.oauth_token+"&force_login=true", "_self");
 	});
 
 	function render(url) {
