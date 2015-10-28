@@ -8,7 +8,8 @@
 	console.log("user list : " + userList);*/
 
 	userObj = UserManager.getInstance();
-    selectedUser = userObj.getAUser();
+        selectedUser = userObj.getAUser();
+        manifest = chrome.runtime.getManifest();
 	$(window).load(function(){
 		render(window.location.hash);
 	});
@@ -31,6 +32,8 @@
 	});
 
 	$("body").on("click", ".list-user", function() {
+                $.each($(this).parent().children(), function(i, obj) { $(obj).css('background-color', 'white')})
+                $(this).css('background-color', 'lightgrey');
 		selectedUser = userObj.getUserObj(this.id);
 		lists = twitter_urlcall.tUrlCaller(selectedUser, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : selectedUser.user_id});
 		//console.log(" lists : " + JSON.stringify(lists));
@@ -60,6 +63,7 @@
     function renderListPage(user) {
     	userList = userObj.getUserList();
     	$("[id=list-users]").html(Handlebars.templates["list-user-template.handlebarse"](userList));
+        $.each($("[id=list-users]").children(), function(i, obj) { if ( obj.id == user.user_id  ) $(obj).css('background-color', 'lightgrey')  } );
     	lists = twitter_urlcall.tUrlCaller(user, "https://api.twitter.com/1.1/lists/list.json", "GET", {"user_id" : user.user_id});
         $.each(user.list, function(i,obj) {
           $.each(lists, function(j,obj1) {
@@ -137,7 +141,6 @@
 				}
 			},
 
-			// Page with filtered products
 			'#about': function() {
 				$("[id=accounts]").removeClass('navbar-item navbar-item-selected').addClass('navbar-item');
 				$("[id=lists]").removeClass('navbar-item navbar-item-selected').addClass('navbar-item');

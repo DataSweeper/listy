@@ -149,43 +149,47 @@ ul {
 }
 
 .list-user {
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
   /* width: 300px; */
   padding: 25px;
-  border: 2px solid navy;
+  /* border: 2px solid navy; */
   margin: 2px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+  border: 1px solid #dbe3e7;
+  padding: 20px;
 }
 
 .list-users {
-  background-color: #f1f1f1;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  /*background-color: #f1f1f1; */
+  -webkit-border-end: 1px solid #c6c9ce;
   top: 0;
-  width: 350px;
-  height: 665px;
-  z-index: 2;
-  overflow: auto;
+  bottom: 0;
+  position: fixed;
+  width: 500px
 }
 
 .list-list {
-  background-color: lightgrey;
-  /* width: 300px; */
+  /* background-color: lightgrey; */
+  width: 300px;
   padding: 25px;
-  border: 2px solid navy;
+  /* border: 2px solid navy; */
   margin: 2px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+  border: 1px solid #dbe3e7;
+  padding: 20px;
 }
 
 .list-lists {
-  background-color: #f1f1f1;
+ /* background-color: #f1f1f1;*/
+  /* background-color: #f1f1f1; */
   position: absolute;
   bottom: 0;
-  overflow: auto;
-  left: 580px;
+  /* overflow: auto; */
+  left: 780px;
   top: 0;
-  width: 350px;
-  height: 665px;
-  z-index: 2;
+  /* width: 350px; */
+  /* height: 665px; */
+  /* z-index: 2; */
 }
 
 .lists-users {
@@ -201,11 +205,30 @@ ul {
 }
 
 .lists-user {
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
   /* width: 300px; */
   padding: 25px;
-  border: 2px solid navy;
+  /* border: 2px solid navy; */
   margin: 2px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+  border: 1px solid #dbe3e7;
+  padding: 20px;
+}
+
+#aboutit {
+  box-sizing: border-box;
+  /* display: inline-block; */
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+  font: normal 12px sans-serif;
+  background-color: #ffffff;
+  border: 1px solid #dbe3e7;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 1px 3px 1px rgba(0, 0, 0, 0.08);
+  margin: 0 12px 14px 0;
+  padding: 25px;
 }
 
 .close {
